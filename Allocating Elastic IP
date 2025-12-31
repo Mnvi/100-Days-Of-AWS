@@ -1,0 +1,104 @@
+## 📅 Day X/100 – Allocating an Elastic IP Address in AWS
+
+### 🚀 100 Days of AWS Cloud Journey
+
+Today in my **#100DaysOfAWSCloud** challenge, I explored **Elastic IP (EIP)** and learned how to allocate and associate it with an EC2 instance.
+
+---
+
+## 🔹 What is an Elastic IP?
+
+An **Elastic IP address** is a **static, public IPv4 address** provided by AWS.
+Unlike normal public IPs that change when an instance is stopped or restarted, an Elastic IP **remains the same** until you release it.
+
+---
+
+## 🔹 Why Elastic IP is Important?
+
+* ✅ Provides a **fixed public IP** for cloud resources
+* ✅ Useful for **production servers**
+* ✅ Prevents downtime caused by IP changes
+* ✅ Can be remapped to another instance during failure
+
+---
+
+## 🔹 Key Points to Remember
+
+* Elastic IPs are **allocated at the AWS account level**
+* An Elastic IP:
+
+  * Can be associated with **only one resource at a time**
+  * Is **free when attached** to a running EC2 instance
+  * Is **charged when unused or detached**
+* Works mainly with **public subnets**
+
+---
+
+## 🔹 Steps to Allocate and Associate an Elastic IP
+
+### 1️⃣ Allocate Elastic IP
+
+1. Open **AWS Management Console**
+2. Go to **EC2 → Elastic IPs**
+3. Click **Allocate Elastic IP address**
+4. Choose **Amazon’s IPv4 pool**
+5. Click **Allocate**
+
+---
+
+### 2️⃣ Associate Elastic IP with EC2 Instance
+
+1. Select the allocated Elastic IP
+2. Click **Actions → Associate Elastic IP**
+3. Choose:
+
+   * Resource type: **Instance**
+   * Select your **EC2 instance**
+4. Click **Associate**
+
+---
+
+### 3️⃣ Verify Connection
+
+* Copy the Elastic IP
+* Paste it into the browser or SSH client
+* Your instance is now accessible via a **static public IP**
+
+---
+
+## 🔹 When to Use Elastic IP?
+
+✔ Web servers
+✔ Production applications
+✔ Bastion hosts
+✔ Load balancer fallback scenarios
+
+---
+
+## 🧠 What I Learned Today
+
+* Difference between **Public IP vs Elastic IP**
+* Elastic IPs belong to **AWS account, not instance**
+* Cost implications of unused Elastic IPs
+* Best practices for production environments
+
+---
+
+## 📌 Repository Goal
+
+This repository documents my **100 Days of AWS Cloud** learning journey with:
+
+* Daily hands-on practice
+* Real AWS console steps
+* Architecture explanations
+* Interview-ready concepts
+
+---
+
+## 🔗 Connect with Me
+
+If you’re also learning AWS, feel free to ⭐ star this repo or fork it.
+
+**#AWS #CloudComputing #ElasticIP #EC2 #100DaysOfCloud #DevOps #LearningInPublic**
+
+
