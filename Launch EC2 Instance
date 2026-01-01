@@ -1,0 +1,204 @@
+
+
+---
+
+# 📅 Day X/100 – Creating an EC2 Instance in AWS (Step by Step)
+
+## 🚀 100 Days of AWS Cloud Journey
+
+Today I learned how to **launch an EC2 (Elastic Compute Cloud) instance** in AWS and understood the core components like AMI, instance type, key pair, security groups, and networking.
+
+---
+
+## 🔹 What is an EC2 Instance?
+
+An **EC2 instance** is a **virtual server in the AWS cloud** used to run applications, websites, and services with full control over the operating system.
+
+---
+
+## 🛠️ Step-by-Step: Create an EC2 Instance
+
+---
+
+## 1️⃣ Login to AWS Console
+
+* Go to **[https://aws.amazon.com](https://aws.amazon.com)**
+* Sign in to **AWS Management Console**
+* Select your **Region** (example: `ap-south-1`)
+
+---
+
+## 2️⃣ Open EC2 Dashboard
+
+* Search for **EC2**
+* Click **EC2 → Instances**
+* Click **Launch instance**
+
+---
+
+## 3️⃣ Choose an Amazon Machine Image (AMI)
+
+An **AMI** defines the operating system.
+
+Common choices:
+
+* Amazon Linux 2023 (Recommended)
+* Ubuntu 22.04 LTS
+* Red Hat / Windows
+
+👉 Select **Amazon Linux** and click **Select**
+
+---
+
+## 4️⃣ Choose Instance Type
+
+This defines CPU and RAM.
+
+| Instance Type | Use Case            |
+| ------------- | ------------------- |
+| t2.micro      | Free Tier, practice |
+| t3.micro      | Better performance  |
+| t3.small      | Small apps          |
+
+👉 Choose **t2.micro** (Free Tier)
+👉 Click **Next / Continue**
+
+---
+
+## 5️⃣ Configure Key Pair (Login Access)
+
+* Click **Create new key pair**
+* Name: `ec2-key`
+* Type: **RSA**
+* Format: **.pem**
+* Download and store safely
+
+📌 Required for SSH access
+
+---
+
+## 6️⃣ Configure Network Settings
+
+* VPC: Default VPC (or custom)
+* Subnet: Public subnet
+* Auto-assign Public IP: **Enable**
+
+---
+
+## 7️⃣ Configure Security Group (Firewall)
+
+### Create new security group
+
+| Type  | Port | Source    |
+| ----- | ---- | --------- |
+| SSH   | 22   | My IP     |
+| HTTP  | 80   | 0.0.0.0/0 |
+| HTTPS | 443  | 0.0.0.0/0 |
+
+📌 Security groups control **inbound traffic**
+
+---
+
+## 8️⃣ Configure Storage
+
+* Root volume: **gp3**
+* Size: 8–20 GiB (Free Tier)
+
+gp3 is recommended for:
+✔ Lower cost
+✔ Better performance
+
+---
+
+## 9️⃣ Add Tags (Best Practice)
+
+* Key: `Name`
+* Value: `My-First-EC2`
+
+Tags help with:
+
+* Resource management
+* Cost tracking
+
+---
+
+## 🔟 Review & Launch
+
+* Review all configurations
+* Click **Launch instance**
+
+Instance state will change:
+
+```
+Pending → Running
+```
+
+---
+
+## 🔑 Step-by-Step: Connect to EC2 via SSH
+
+### 1️⃣ Set Permissions (Linux/Mac)
+
+```bash
+chmod 400 ec2-key.pem
+```
+
+---
+
+### 2️⃣ Connect to Instance
+
+```bash
+ssh -i ec2-key.pem ec2-user@<public-ip>
+```
+
+For Ubuntu:
+
+```bash
+ssh -i ec2-key.pem ubuntu@<public-ip>
+```
+
+---
+
+## ✅ Verify Instance
+
+```bash
+whoami
+```
+
+Output:
+
+```
+ec2-user
+```
+
+🎉 Successfully connected!
+
+---
+
+## 🧠 What I Learned Today
+
+* EC2 is a resizable virtual server
+* AMI defines the OS
+* Security groups act as firewalls
+* Key pairs enable secure login
+* gp3 is the default storage
+
+---
+
+## 🎯 Interview One-Liner
+
+> **EC2 is an AWS service that provides scalable virtual servers with configurable compute, storage, and networking.**
+
+---
+
+## 📌 Repository Goal
+
+This repository documents my **100 Days of AWS Cloud** journey with:
+
+* Hands-on labs
+* Step-by-step AWS guides
+* Interview-ready explanations
+
+---
+
+
