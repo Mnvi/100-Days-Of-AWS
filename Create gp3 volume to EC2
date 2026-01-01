@@ -1,0 +1,184 @@
+
+
+# 📅 Day X/100 – Creating a gp3 EBS Volume in AWS
+
+## 🚀 100 Days of AWS Cloud Journey
+
+Today I learned how to **create and attach a gp3 (General Purpose SSD) EBS volume** in AWS and understood how storage, IOPS, and throughput work independently.
+
+---
+
+## 🔹 What is a gp3 Volume?
+
+A **gp3 volume** is an **Amazon EBS General Purpose SSD** volume that provides:
+
+* High performance
+* Lower cost than gp2
+* Independent configuration of **storage, IOPS, and throughput**
+
+It is the **recommended default EBS volume type** for most workloads.
+
+---
+
+## 🔹 Why Use gp3?
+
+✅ Predictable performance
+✅ Lower cost (~20% cheaper than gp2)
+✅ No need to over-provision storage
+✅ Ideal for production workloads
+
+---
+
+## 🛠️ Step-by-Step: Create a gp3 EBS Volume
+
+### 1️⃣ Open EC2 Dashboard
+
+* Login to **AWS Management Console**
+* Go to **EC2 → Elastic Block Store → Volumes**
+* Click **Create volume**
+
+---
+
+### 2️⃣ Configure Volume Settings
+
+| Setting           | Value                |
+| ----------------- | -------------------- |
+| Volume type       | **gp3**              |
+| Size              | Example: `20 GiB`    |
+| IOPS              | Default `3000`       |
+| Throughput        | Default `125 MB/s`   |
+| Availability Zone | Same as EC2 instance |
+
+📌 **Important:**
+The volume **must be in the same Availability Zone** as the EC2 instance.
+
+---
+
+### 3️⃣ Add Tags (Best Practice)
+
+* Key: `Name`
+* Value: `gp3-demo-volume`
+
+Tags help in:
+
+* Cost tracking
+* Resource management
+* Production clarity
+
+---
+
+### 4️⃣ Create the Volume
+
+* Click **Create volume**
+* Status will change to **Available**
+
+---
+
+## 🔗 Step-by-Step: Attach gp3 Volume to EC2
+
+### 5️⃣ Attach Volume
+
+* Select the created gp3 volume
+* Click **Actions → Attach volume**
+* Choose the **EC2 instance**
+* Device name: `/dev/xvdf`
+* Click **Attach**
+
+---
+
+## 💽 Step-by-Step: Mount Volume Inside EC2
+
+### 6️⃣ Connect to EC2
+
+```bash
+ssh -i key.pem ec2-user@<public-ip>
+```
+
+---
+
+### 7️⃣ Check Available Disks
+
+```bash
+lsblk
+```
+
+You will see a new device like:
+
+```
+xvdf
+```
+
+---
+
+### 8️⃣ Format the Volume
+
+```bash
+sudo mkfs -t ext4 /dev/xvdf
+```
+
+---
+
+### 9️⃣ Create Mount Directory
+
+```bash
+sudo mkdir /data
+```
+
+---
+
+### 🔟 Mount the Volume
+
+```bash
+sudo mount /dev/xvdf /data
+```
+
+---
+
+### ✅ Verify Mount
+
+```bash
+df -h
+```
+
+You should see `/data` mounted successfully.
+
+---
+
+## 🧠 What I Learned Today
+
+* gp3 volumes offer **baseline 3000 IOPS for free**
+* Performance is **independent of storage size**
+* Volumes must be in the **same AZ as EC2**
+* gp3 is ideal for **web servers & databases**
+
+---
+
+## 🔄 gp3 vs gp2 (Quick Comparison)
+
+| Feature     | gp2        | gp3         |
+| ----------- | ---------- | ----------- |
+| IOPS        | Size-based | Independent |
+| Cost        | Higher     | Lower       |
+| Performance | Variable   | Predictable |
+| Recommended | ❌          | ✅           |
+
+---
+
+## 🎯 Interview One-Liner
+
+> **gp3 is a general-purpose SSD EBS volume that allows independent scaling of storage, IOPS, and throughput at a lower cost than gp2.**
+
+---
+
+## 📌 Repository Goal
+
+This repository documents my **100 Days of AWS Cloud** journey with:
+
+* Daily hands-on practice
+* AWS console walkthroughs
+* Interview-ready notes
+* Real cloud scenarios
+
+---
+
+
