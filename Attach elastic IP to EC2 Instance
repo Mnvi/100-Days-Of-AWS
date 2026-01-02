@@ -1,0 +1,184 @@
+
+
+# 🚀 Day x of #100DaysOfAWSCloud
+
+## Attaching an Elastic IP to an EC2 Instance (Step-by-Step)
+
+---
+
+## 📌 What is an Elastic IP (EIP)?
+
+An **Elastic IP (EIP)** is a **static, public IPv4 address** provided by AWS.
+Unlike the default public IP of an EC2 instance, an Elastic IP **does not change** even if the instance is stopped and started again.
+
+---
+
+## 🤔 Why Do We Need an Elastic IP?
+
+* Default public IP **changes on stop/start**
+* Elastic IP provides a **fixed public IP**
+* Useful for:
+
+  * Production servers
+  * Web applications
+  * APIs
+  * SSH access
+  * DNS mapping
+
+---
+
+## 🏗️ Architecture Overview
+
+```
+User → Internet → Elastic IP → ENI → EC2 Instance
+```
+
+> ⚠️ Elastic IP is actually attached to the **Elastic Network Interface (ENI)** of an EC2 instance.
+
+---
+
+## ✅ Prerequisites
+
+Before starting, make sure you have:
+
+* An **AWS account**
+* A **running EC2 instance**
+* Instance is in a **public subnet**
+* Internet Gateway attached to the VPC
+* Route table with `0.0.0.0/0 → IGW`
+
+---
+
+## 🔧 Step-by-Step: Attach Elastic IP to EC2 Instance
+
+---
+
+### 🔹 Step 1: Open EC2 Dashboard
+
+1. Login to **AWS Management Console**
+2. Go to **EC2**
+3. In the left sidebar, scroll to **Network & Security**
+4. Click **Elastic IPs**
+
+---
+
+### 🔹 Step 2: Allocate a New Elastic IP
+
+1. Click **Allocate Elastic IP address**
+2. Select:
+
+   * Network Border Group → Default
+3. Click **Allocate**
+
+✅ A new Elastic IP is now reserved for your AWS account.
+
+---
+
+### 🔹 Step 3: Associate Elastic IP with EC2 Instance
+
+1. Select the **Elastic IP**
+2. Click **Actions → Associate Elastic IP address**
+3. Choose:
+
+   * Resource type → **Instance**
+   * Instance → Select your EC2 instance
+   * Private IP → Auto-selected
+4. Click **Associate**
+
+🎉 Elastic IP is now attached to your EC2 instance.
+
+---
+
+## 🔍 Step 4: Verify the Elastic IP
+
+1. Go to **EC2 → Instances**
+2. Select your instance
+3. Check **Public IPv4 address**
+
+You should see the **Elastic IP** instead of a random public IP.
+
+---
+
+## 🧪 Test Connectivity
+
+Try accessing your instance:
+
+```bash
+ssh -i key.pem ec2-user@<Elastic-IP>
+```
+
+Or open in browser:
+
+```
+http://<Elastic-IP>
+```
+
+---
+
+## 🧠 Important Notes (Very Important for Interviews)
+
+### 🔸 Elastic IP Charges
+
+* **Free** when attached to a running instance
+* **Charged** when:
+
+  * EIP is not attached
+  * Attached to a stopped instance
+
+---
+
+### 🔸 Elastic IP vs Public IP
+
+| Feature               | Public IP | Elastic IP |
+| --------------------- | --------- | ---------- |
+| Static                | ❌ No      | ✅ Yes      |
+| Changes on stop/start | ✅ Yes     | ❌ No       |
+| Production use        | ❌ No      | ✅ Yes      |
+
+---
+
+## 🔐 Elastic IP & Security Groups
+
+* Security Groups must allow:
+
+  * SSH (22)
+  * HTTP (80)
+  * HTTPS (443) (if needed)
+* Elastic IP does **not bypass security rules**
+
+---
+
+## 🧩 Real-World Use Case
+
+* Hosting a website
+* API backend
+* Bastion host
+* Database access server
+* Load balancer fallback IP
+
+---
+
+## 🧠 Interview One-Liner
+
+> **Elastic IP is a static public IPv4 address in AWS that can be attached to an EC2 instance’s network interface to ensure persistent public connectivity.**
+
+---
+
+## 📘 What I Learned Today
+
+* Elastic IP provides static public access
+* It is attached to an ENI, not directly to EC2
+* Useful for production workloads
+* AWS charges for unused Elastic IPs
+
+
+
+
+
+### ⭐ If you found this useful
+
+* Star ⭐ the repo
+* Fork 🍴 and practice
+* Follow my **#100DaysOfAWSCloud** journey
+
+---
