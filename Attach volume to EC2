@@ -1,0 +1,202 @@
+
+
+# 📀 Attaching an EBS Volume to an EC2 Instance (Step-by-Step)
+
+This guide explains **how to create, attach, and mount an Amazon EBS volume to an EC2 instance** in AWS Cloud.
+
+---
+
+## 🧠 Prerequisites
+
+* AWS account
+* Running **EC2 instance**
+* EC2 and EBS must be in the **same Availability Zone**
+* Basic Linux command knowledge
+
+---
+
+## 🧩 Architecture Overview
+
+```
++------------------+        Attach        +------------------+
+|   EBS Volume     | ------------------> |   EC2 Instance   |
+|  (Block Storage) |                     |   (Linux)        |
++------------------+                     +------------------+
+                                                 |
+                                                 |
+                                           Mount to /data
+```
+
+---
+
+## ✅ Step 1: Create an EBS Volume
+
+1. Open **AWS Console**
+2. Go to **EC2 → Volumes**
+3. Click **Create volume**
+4. Configure:
+
+   * **Volume type**: gp3 (recommended)
+   * **Size**: 8 GB (or as needed)
+   * **Availability Zone**: *Same as EC2*
+5. Click **Create volume**
+
+📌 *Important*: AZ must match the EC2 instance AZ.
+
+---
+
+## ✅ Step 2: Attach Volume to EC2
+
+1. Select the **EBS Volume**
+2. Click **Actions → Attach volume**
+3. Choose:
+
+   * **Instance**: Your EC2 instance
+   * **Device name**: `/dev/xvdf` (default is fine)
+4. Click **Attach**
+
+```
+EBS Volume
+   |
+   | Attached as /dev/xvdf
+   v
+EC2 Instance
+```
+
+---
+
+## ✅ Step 3: Connect to EC2 Instance
+
+SSH into your EC2 instance:
+
+```bash
+ssh -i key.pem ec2-user@<public-ip>
+```
+
+---
+
+## ✅ Step 4: Check Attached Volume
+
+List block devices:
+
+```bash
+lsblk
+```
+
+Expected output:
+
+```
+xvda    root volume
+xvdf    new EBS volume
+```
+
+---
+
+## ✅ Step 5: Create File System on the Volume
+
+⚠️ Do this **only for new volumes**.
+
+```bash
+sudo mkfs -t ext4 /dev/xvdf
+```
+
+---
+
+## ✅ Step 6: Create Mount Directory
+
+```bash
+sudo mkdir /data
+```
+
+---
+
+## ✅ Step 7: Mount the Volume
+
+```bash
+sudo mount /dev/xvdf /data
+```
+
+Verify:
+
+```bash
+df -h
+```
+
+You should see `/data` mounted.
+
+---
+
+## ✅ Step 8: Make Mount Persistent (Important)
+
+Edit `/etc/fstab`:
+
+```bash
+sudo nano /etc/fstab
+```
+
+Add this line:
+
+```bash
+/dev/xvdf  /data  ext4  defaults,nofail  0  2
+```
+
+Save and exit.
+
+Test configuration:
+
+```bash
+sudo mount -a
+```
+
+---
+
+## 🎯 Final Architecture
+
+```
++----------------------+
+|      EC2 Instance    |
+|----------------------|
+| Root Volume (/ )     |
+| EBS Volume (/data)   |
++----------------------+
+```
+
+---
+
+## 🧪 Common Issues & Fixes
+
+| Issue                   | Fix                 |
+| ----------------------- | ------------------- |
+| Volume not visible      | Check AZ            |
+| Mount lost after reboot | Update `/etc/fstab` |
+| Permission denied       | Use `sudo`          |
+
+---
+
+## 🔑 Key Interview / Exam Points
+
+* EBS is **AZ-specific**
+* EBS = **block storage**
+* One EBS can attach to **one EC2 (unless Multi-Attach)**
+* Data persists after EC2 stop/terminate (if not deleted)
+
+---
+
+## 🚀 Use Cases
+
+* Database storage
+* Application data
+* Logs & backups
+* Separate OS and data storage
+
+---
+
+## 📌 Tags (for GitHub SEO)
+
+```
+#aws #ec2 #ebs #cloudcomputing #devops #100daysofaws
+```
+
+---
+
+
